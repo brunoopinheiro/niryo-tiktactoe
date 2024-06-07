@@ -105,6 +105,9 @@ class Pose:
         )
         return new_pose
 
+    def __str__(self) -> str:
+        return f'{self.j1},{self.j2},{self.j3},{self.j4},{self.j5},{self.j6}'
+
     @singledispatchmethod
     def update(
         self,

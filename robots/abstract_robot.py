@@ -70,11 +70,15 @@ class AbstractRobot(ABC):
         self.position = Pose(*new_pos)
 
     @abstractmethod
+    def __calibrate_robot() -> None:
+        raise NotImplementedError
+
+    @abstractmethod
     def printpose() -> str:
         raise NotImplementedError
 
     @abstractmethod
-    def move_to_pose() -> bool:
+    def move_to_pose(pose_: Pose) -> bool:
         # should be used with robot joints
         raise NotImplementedError
 
