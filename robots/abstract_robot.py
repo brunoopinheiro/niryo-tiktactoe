@@ -74,7 +74,7 @@ class AbstractRobot(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def printpose() -> str:
+    def printpose(self) -> str:
         raise NotImplementedError
 
     @abstractmethod
@@ -83,15 +83,15 @@ class AbstractRobot(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def grip() -> None:
+    def grip(self) -> None:
         raise NotImplementedError
 
     @abstractmethod
-    def release() -> None:
+    def release(self) -> None:
         raise NotImplementedError
 
     @abstractmethod
-    def trajectory_move(poses: list[Pose]) -> None:
+    def trajectory_move(self, poses: list[Pose]) -> None:
         """With a given list of poses, executes a
         series of movements in the given order.
 
@@ -101,5 +101,9 @@ class AbstractRobot(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def close_connection() -> bool:
+    def reset_state(self) -> None:
+        raise NotImplementedError
+
+    @abstractmethod
+    def close_connection(self) -> bool:
         raise NotImplementedError
