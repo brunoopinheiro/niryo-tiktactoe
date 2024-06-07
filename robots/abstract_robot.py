@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from robots.pose import Pose
-from functools import singledispatchmethod
 
 
 class AbstractRobot(ABC):
@@ -56,18 +55,21 @@ class AbstractRobot(ABC):
     def grip_closed(self, value: bool) -> None:
         self.__closed = value
 
-    @singledispatchmethod
     @position.setter
-    def position(self, new_pos: object) -> None:
-        raise NotImplementedError('Unsupported Type')
-
-    @position.register
-    def _(self, new_pos: dict[str, float]) -> None:
-        self.position = Pose.pose_from_dict(new_pos)
-
-    @position.register
-    def _(self, new_pos: list[float]) -> None:
-        self.position = Pose(*new_pos)
+    def position(
+        self,
+        new_pos: Pose | None = None,
+        pose_dict: dict[str, float] | None = None,
+        pose_list: list[float] | None = None,
+    ) -> None:
+        if new_pos is not None:
+            self.position = new_pos
+        elif pose_dict is not None:
+            self.position = Pose.pose_from_dict(pose_dict)
+        elif pose_list is not None:
+            self.position = Pose(*pose_list)
+        else:
+            raise AttributeError('Not a valid position.')
 
     @abstractmethod
     def __calibrate_robot() -> None:
@@ -78,7 +80,7 @@ class AbstractRobot(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def move_to_pose(pose_: Pose) -> bool:
+    def move_to_pose(self, pose_: Pose) -> bool:
         # should be used with robot joints
         raise NotImplementedError
 

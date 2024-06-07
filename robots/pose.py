@@ -138,3 +138,15 @@ class Pose:
         self.j4 = pose[3]
         self.j5 = pose[4]
         self.j6 = pose[5]
+
+    @update.register
+    def _(
+        self,
+        pose: Pose,
+    ) -> bool:
+        self.j1 = pose.j1
+        self.j2 = pose.j2
+        self.j3 = pose.j3
+        self.j4 = pose.j4
+        self.j5 = pose.j5
+        self.j6 = pose.j6
