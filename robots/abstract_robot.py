@@ -18,7 +18,7 @@ class AbstractRobot(ABC):
         return self.__learning
 
     @property
-    def velocity(self) -> bool:
+    def velocity(self) -> int:
         return self.__velocity
 
     @property
@@ -42,7 +42,14 @@ class AbstractRobot(ABC):
         self.__learning = value
 
     @velocity.setter
-    def velocity(self, value: float) -> None:
+    def velocity(self, value: int) -> None:
+        """Sets the arm max velocity
+
+        Args:
+            value (float): a percentage value
+        """
+        if value < 1 or value > 100:
+            raise ValueError('Velocity not supported')
         self.__velocity = value
 
     @grip_closed.setter
