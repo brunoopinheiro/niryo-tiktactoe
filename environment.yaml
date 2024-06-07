@@ -1,0 +1,7 @@
+name: niryo-tictactoe
+channels:
+  - defaults
+dependencies:
+  - python==3.12.0
+  - pip
+  - numpy
