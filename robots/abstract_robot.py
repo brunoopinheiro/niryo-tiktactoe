@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from robots.pose import Pose
+from pose import Pose
 
 
 class AbstractRobot(ABC):
@@ -58,22 +58,9 @@ class AbstractRobot(ABC):
     @position.setter
     def position(
         self,
-        new_pos: Pose | None = None,
-        pose_dict: dict[str, float] | None = None,
-        pose_list: list[float] | None = None,
+        new_pos: Pose,
     ) -> None:
-        if new_pos is not None:
-            self.position = new_pos
-        elif pose_dict is not None:
-            self.position = Pose.pose_from_dict(pose_dict)
-        elif pose_list is not None:
-            self.position = Pose(*pose_list)
-        else:
-            raise AttributeError('Not a valid position.')
-
-    @abstractmethod
-    def __calibrate_robot() -> None:
-        raise NotImplementedError
+        self.position = new_pos
 
     @abstractmethod
     def printpose(self) -> str:

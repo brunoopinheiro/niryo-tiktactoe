@@ -1,5 +1,5 @@
 from abstract_robot import AbstractRobot
-from robots.pose import Pose
+from pose import Pose
 
 # same as e1_pose_intermediate_board
 BASEPOSE = {
@@ -29,10 +29,10 @@ class BaseRobot(AbstractRobot):
         self.calibrated = False
         self.grip_closed = False
         self.learning = False
-        self.position = Pose.pose_from_dict(BASEPOSE)
+        # basepose = Pose.pose_from_dict(BASEPOSE)
+        self.position = Pose(**BASEPOSE)
+        self.last_position = self.position
         self.velocity = 80
-        self.__calibrate_robot()
-        self.calibrated = True
 
     def printpose(self) -> str:
         print(self.position)
@@ -41,7 +41,7 @@ class BaseRobot(AbstractRobot):
         self,
         pose_: dict[str, float] | list[float],
     ) -> bool:
-        self.position.update(pose_)
+        self.position.update_(pose_)
 
     def grip(self) -> None:
         if not self.grip_closed:
@@ -54,8 +54,8 @@ class BaseRobot(AbstractRobot):
     def trajectory_move(self, poses: list[Pose]) -> None:
         try:
             for pose in poses:
-                self.last_position.update(pose)
-                self.position.update(pose)
+                self.last_position.update_(pose)
+                self.move_to_pose(pose)
         except ValueError as err:
             print(err)
 

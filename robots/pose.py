@@ -79,31 +79,31 @@ class Pose:
 
     def __init__(
         self,
-        joint1: float,
-        joint2: float,
-        joint3: float,
-        joint4: float,
-        joint5: float,
-        joint6: float,
+        j1: float,
+        j2: float,
+        j3: float,
+        j4: float,
+        j5: float,
+        j6: float,
     ) -> None:
-        self.j1 = joint1
-        self.j2 = joint2
-        self.j3 = joint3
-        self.j4 = joint4
-        self.j5 = joint5
-        self.j6 = joint6
+        self.j1 = j1
+        self.j2 = j2
+        self.j3 = j3
+        self.j4 = j4
+        self.j5 = j5
+        self.j6 = j6
 
-    @staticmethod
-    def pose_from_dict(pose_: dict[str, float]) -> Pose:
-        new_pose = Pose(
-            joint1=pose_['j1'],
-            joint2=pose_['j2'],
-            joint3=pose_['j3'],
-            joint4=pose_['j4'],
-            joint5=pose_['j5'],
-            joint6=pose_['j6'],
-        )
-        return new_pose
+    # @staticmethod
+    # def pose_from_dict(pose_: dict[str, float]) -> Pose:
+    #     new_pose = Pose(
+    #         joint1=pose_['j1'],
+    #         joint2=pose_['j2'],
+    #         joint3=pose_['j3'],
+    #         joint4=pose_['j4'],
+    #         joint5=pose_['j5'],
+    #         joint6=pose_['j6'],
+    #     )
+    #     return new_pose
 
     def __str__(self) -> str:
         return f'{self.j1},{self.j2},{self.j3},{self.j4},{self.j5},{self.j6}'
@@ -112,14 +112,14 @@ class Pose:
     def update(
         self,
         pose_: object
-    ) -> bool:
+    ) -> None:
         raise NotImplementedError('Unsupported Type')
 
     @update.register
     def _(
         self,
-        pose: dict[str, float],
-    ) -> bool:
+        pose: dict,
+    ) -> None:
         self.j1 = pose['j1']
         self.j2 = pose['j2']
         self.j3 = pose['j3']
@@ -130,8 +130,8 @@ class Pose:
     @update.register
     def _(
         self,
-        pose: list[float],
-    ) -> bool:
+        pose: list,
+    ) -> None:
         self.j1 = pose[0]
         self.j2 = pose[1]
         self.j3 = pose[2]
@@ -139,11 +139,10 @@ class Pose:
         self.j5 = pose[4]
         self.j6 = pose[5]
 
-    @update.register
-    def _(
+    def update_(
         self,
         pose: Pose,
-    ) -> bool:
+    ) -> None:
         self.j1 = pose.j1
         self.j2 = pose.j2
         self.j3 = pose.j3
