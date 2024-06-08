@@ -93,17 +93,17 @@ class Pose:
         self.j5 = j5
         self.j6 = j6
 
-    # @staticmethod
-    # def pose_from_dict(pose_: dict[str, float]) -> Pose:
-    #     new_pose = Pose(
-    #         joint1=pose_['j1'],
-    #         joint2=pose_['j2'],
-    #         joint3=pose_['j3'],
-    #         joint4=pose_['j4'],
-    #         joint5=pose_['j5'],
-    #         joint6=pose_['j6'],
-    #     )
-    #     return new_pose
+    @staticmethod
+    def pose_from_dict(pose_: dict[str, float]) -> Pose:
+        new_pose = Pose(
+            j1=pose_['j1'],
+            j2=pose_['j2'],
+            j3=pose_['j3'],
+            j4=pose_['j4'],
+            j5=pose_['j5'],
+            j6=pose_['j6'],
+        )
+        return new_pose
 
     def __str__(self) -> str:
         return f'{self.j1},{self.j2},{self.j3},{self.j4},{self.j5},{self.j6}'
@@ -149,3 +149,41 @@ class Pose:
         self.j4 = pose.j4
         self.j5 = pose.j5
         self.j6 = pose.j6
+
+
+if __name__ == '__main__':
+    e1_pose_grip_base = {"j1": -1.577, "j2": -0.496,
+                         "j3": -0.703, "j4": 0.000,
+                         "j5": -0.009, "j6": -0.186}
+
+    e1_pose_intermediate_tray = {"j1": -1.577, "j2": 0.306,
+                                 "j3": -0.538, "j4": 0.000,
+                                 "j5": -0.907, "j6": -0.181}
+
+    e1_pose_parallel_grip = {"j1": 0.000, "j2": -0.635,
+                             "j3": -0.538, "j4": 0.000,
+                             "j5": -0.907, "j6": -0.191}
+
+    # creating pose from dict
+    pose1 = Pose(**e1_pose_grip_base)
+    print(pose1)
+
+    # creating pose from list
+    j_list = list(e1_pose_grip_base.values())
+    pose2 = Pose(*j_list)
+    print(pose2)
+
+    # updating pose from dict
+    pose1.update(e1_pose_intermediate_tray)
+    print(pose1)
+    # updating pose from list
+    j_list = list(e1_pose_intermediate_tray.values())
+    pose2.update(j_list)
+    print(pose2)
+    # updating pose from Pose
+    pose3 = Pose.pose_from_dict(e1_pose_parallel_grip)
+    print('Pose1: ', pose1)
+    print('Pose3: ', pose3)
+    print('Updating pose from Pose obj')
+    pose1.update_(pose3)
+    print('Pose1: ', pose1)
