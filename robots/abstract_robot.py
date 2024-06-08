@@ -60,14 +60,14 @@ class AbstractRobot(ABC):
         self,
         new_pos: Pose,
     ) -> None:
-        self.position = new_pos
+        self.__position = new_pos
 
     @abstractmethod
     def printpose(self) -> str:
         raise NotImplementedError
 
     @abstractmethod
-    def move_to_pose(self, pose_: Pose) -> bool:
+    def move_to_pose(self, pose_: Pose) -> None:
         # should be used with robot joints
         raise NotImplementedError
 

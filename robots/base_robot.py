@@ -30,7 +30,7 @@ class BaseRobot(AbstractRobot):
         self.grip_closed = False
         self.learning = False
         # basepose = Pose.pose_from_dict(BASEPOSE)
-        self.position = Pose(**BASEPOSE)
+        self.position = Pose.pose_from_dict(BASEPOSE)
         self.last_position = self.position
         self.velocity = 80
 
@@ -40,7 +40,13 @@ class BaseRobot(AbstractRobot):
     def move_to_pose(
         self,
         pose_: dict[str, float] | list[float],
-    ) -> bool:
+    ) -> None:
+        self.position.update(pose_)
+
+    def move_to_pose_(
+        self,
+        pose_: Pose,
+    ) -> None:
         self.position.update_(pose_)
 
     def grip(self) -> None:
@@ -55,7 +61,7 @@ class BaseRobot(AbstractRobot):
         try:
             for pose in poses:
                 self.last_position.update_(pose)
-                self.move_to_pose(pose)
+                self.move_to_pose_(pose)
         except ValueError as err:
             print(err)
 

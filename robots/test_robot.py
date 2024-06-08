@@ -4,7 +4,7 @@ from pose import Pose
 
 class TestRobot(BaseRobot):
 
-    def __calibrate_robot() -> None:
+    def __calibrate_robot(self) -> None:
         print('Calibrating...')
         print('Calibrated')
 
@@ -42,24 +42,24 @@ class TestRobot(BaseRobot):
 
 def main():
     e1_pose_grip_base = {"j1": -1.577, "j2": -0.496,
-                     "j3": -0.703, "j4": 0.000,
-                     "j5": -0.009, "j6": -0.186}
+                         "j3": -0.703, "j4": 0.000,
+                         "j5": -0.009, "j6": -0.186}
 
     e1_pose_intermediate_tray = {"j1": -1.577, "j2": 0.306,
-                                "j3": -0.538, "j4": 0.000,
-                                "j5": -0.907, "j6": -0.181}
+                                 "j3": -0.538, "j4": 0.000,
+                                 "j5": -0.907, "j6": -0.181}
 
     e1_pose_intermediate_board = {"j1": 0.000, "j2": 0.306,
-                                "j3": -0.538, "j4": 0.000,
-                                "j5": -0.907, "j6": -0.191}
+                                  "j3": -0.538, "j4": 0.000,
+                                  "j5": -0.907, "j6": -0.191}
 
     e1_pose_parallel_grip = {"j1": 0.000, "j2": -0.635,
-                            "j3": -0.538, "j4": 0.000,
-                            "j5": -0.907, "j6": -0.191}
+                             "j3": -0.538, "j4": 0.000,
+                             "j5": -0.907, "j6": -0.191}
 
     e1_pose_intermediate_board = {"j1": 0.000, "j2": 0.306,
-                              "j3": -0.538, "j4": 0.000,
-                              "j5": -0.907, "j6": -0.191}
+                                  "j3": -0.538, "j4": 0.000,
+                                  "j5": -0.907, "j6": -0.191}
 
     # Posição 3 do teclado numérico (Bottom right corner)
     e1_pose_board_corner = {"j1": 0.123, "j2": -1.062,
@@ -78,7 +78,7 @@ def main():
         Pose.pose_from_dict(e1_pose_board_corner),
     ])
     test_robot.release()
-    test_robot.move_to_pose()
+    test_robot.move_to_pose(e1_pose_parallel_grip)
     test_robot.reset_state()
     test_robot.close_connection()
 
