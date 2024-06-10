@@ -161,21 +161,21 @@ class Pose:
         self.j6 = pose.j6
 
     def __sub__(self, other):
-        j1 = self.j1 - other.j1
-        j2 = self.j2 - other.j2
-        j3 = self.j3 - other.j3
-        j4 = self.j4 - other.j4
-        j5 = self.j5 - other.j5
-        j6 = self.j6 - other.j6
+        j1 = round(self.j1 - other['j1'],3)
+        j2 = round(self.j2 - other['j2'],3)
+        j3 = round(self.j3 - other['j3'],3)
+        j4 = round(self.j4 - other['j4'],3)
+        j5 = round(self.j5 - other['j5'],3)
+        j6 = round(self.j6 - other['j6'],3)
         return Pose(j1, j2, j3, j4, j5, j6)
 
     def __add__(self, other):
-        j1 = self.j1 + other.j1
-        j2 = self.j2 + other.j2
-        j3 = self.j3 + other.j3
-        j4 = self.j4 + other.j4
-        j5 = self.j5 + other.j5
-        j6 = self.j6 + other.j6
+        j1 = round(self.j1 + other['j1'],3)
+        j2 = round(self.j2 + other['j2'],3)
+        j3 = round(self.j3 + other['j3'],3)
+        j4 = round(self.j4 + other['j4'],3)
+        j5 = round(self.j5 + other['j5'],3)
+        j6 = round(self.j6 + other['j6'],3)
         return Pose(j1, j2, j3, j4, j5, j6)
 
 
