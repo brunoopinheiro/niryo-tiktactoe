@@ -160,6 +160,24 @@ class Pose:
         self.j5 = pose.j5
         self.j6 = pose.j6
 
+    def __sub__(self, other):
+        j1 = self.j1 - other.j1
+        j2 = self.j2 - other.j2
+        j3 = self.j3 - other.j3
+        j4 = self.j4 - other.j4
+        j5 = self.j5 - other.j5
+        j6 = self.j6 - other.j6
+        return Pose(j1, j2, j3, j4, j5, j6)
+
+    def __add__(self, other):
+        j1 = self.j1 + other.j1
+        j2 = self.j2 + other.j2
+        j3 = self.j3 + other.j3
+        j4 = self.j4 + other.j4
+        j5 = self.j5 + other.j5
+        j6 = self.j6 + other.j6
+        return Pose(j1, j2, j3, j4, j5, j6)
+
 
 if __name__ == '__main__':
     e1_pose_grip_base = {"j1": -1.577, "j2": -0.496,

@@ -1,5 +1,5 @@
-from base_robot import BaseRobot
-from pyniryo2 import (NiryoRobot as Niryo, RobotErrors)
+from robots.base_robot import BaseRobot
+from pyniryo2 import NiryoRobot as Niryo
 
 from robots.pose import Pose
 
@@ -17,26 +17,11 @@ class NiryoRobot(BaseRobot):
     def robot(self, robot_obj: Niryo) -> None:
         self.__robot = robot_obj
 
-    @staticmethod
-    def __calibration_callback(result) -> None:
-        if result["status"] < RobotErrors.SUCCESS.value:
-            return False
-        else:
-            return True
-
-    def __calibrate_robot(self) -> bool:
-        result = self.robot.arm.calibrate_auto(
-            self.__calibration_callback
-        )
-        return result
-
     def __init__(self) -> None:
         self.robot = Niryo(ROBOT_IP)
         super().__init__()
-        result = False
-        while result is not True:
-            result = self.__calibrate_robot()
-            self.calibrated = result
+        self.robot.arm.calibrate_auto()
+        self.move_to_pose_(self.position)
 
     def move_to_pose(self, pose_: dict[str, float] | list[float]) -> None:
         if not self.connected:
