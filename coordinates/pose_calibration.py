@@ -3,7 +3,7 @@ from robots.pose import Pose
 
 class CalibratedPositions:
 
-    def __calibration(self):
+    def calibration(self):
         board_horizontal_distance = {'j1': 0.141, 'j2': -0.020,
                                      'j3': 0.017, 'j4': 0.074,
                                      'j5': 0.019, 'j6': 0.179}
@@ -58,4 +58,4 @@ class CalibratedPositions:
         # Number 5 on keyboard
         # (center of the board and reference for other positions)
         self.board_center = Pose(**center_board)
-        self.__calibration()
+        self.calibration()

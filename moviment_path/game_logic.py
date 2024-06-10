@@ -1,74 +1,119 @@
-import time
-from robots.abstract_robot import AbstractRobot
 import random
-from path_positions import PoseCoordinates
+from robots.base_robot import BaseRobot
+from moviment_path.robot_controller import RobotController
 
-from robots.pose import Pose
 
 class JogoDaVelha():
-    def __init__(self, game_bot: AbstractRobot):
+
+    @property
+    def board_positions(self) -> list[list[int]]:
+        return self.__board_positions
+
+    @property
+    def game_robot(self) -> BaseRobot:
+        return self.__robot
+
+    @property
+    def grid(self) -> list[list[str]]:
+        return self.__grid
+
+    @property
+    def player_move_list(self) -> dict[str, list[str]]:
+        return self.__playermoves
+
+    @property
+    def available_positions(self) -> dict[int, list[int]]:
+        return self.__availablepositions
+
+    @game_robot.setter
+    def game_robot(self, game_bot: BaseRobot) -> None:
+        self.__robot = game_bot
+
+    @board_positions.setter
+    def board_positions(self, board_pos: list[list[int]]) -> None:
+        self.__board_positions = board_pos
+
+    @grid.setter
+    def grid(self, grid_pos: list[list[str]]) -> None:
+        self.__grid = grid_pos
+
+    @player_move_list.setter
+    def player_move_list(self, move_list: dict[str, list[str]]) -> None:
+        self.__playermoves = move_list
+
+    @available_positions.setter
+    def available_positions(self, available_pos: dict[int, list[int]]) -> None:
+        self.__availablepositions = available_pos
+
+    def __init__(self, game_bot: BaseRobot):
         self.game_robot = game_bot
-        self.coord = PoseCoordinates()
-        
-        self.posicao_campos = [[7, 8, 9],
-                               [4, 5, 6],
-                               [1, 2, 3]]
+        self.__controller = RobotController(self.game_robot)
+        self.board_positions = [[7, 8, 9],
+                                [4, 5, 6],
+                                [1, 2, 3]]
         self.grid = [[' ', ' ', ' '],
-                       [' ', ' ', ' '],
-                       [' ', ' ', ' ']]
+                     [' ', ' ', ' '],
+                     [' ', ' ', ' ']]
         self.player_move_list = {"Human": [], "Robot": []}
-        self.available_positions = {7: [0,0], 8: [0,1], 9: [0,2],
-                                    4: [1,0], 5: [1,1], 6: [1,2],
-                                    1: [2,0], 2: [2,1], 3: [2,2]}
-        
-        
+        self.available_positions = {7: [0, 0], 8: [0, 1], 9: [0, 2],
+                                    4: [1, 0], 5: [1, 1], 6: [1, 2],
+                                    1: [2, 0], 2: [2, 1], 3: [2, 2]}
+
     def valida_jogada(self, jogada) -> int:
         """
-        Valida se o valor digitado é um inteiro, mantendo o usuário em loop até digitar um valor válido
+        Valida se o valor digitado é um inteiro,
+        mantendo o usuário em loop até digitar um valor válido
             return: jogada (int)
         """
+        msg = '''[WARNING] Valor inválido! Digite um número entre 1 e 9
+        para realizar sua jogada: '''
         while ((jogada < 1) or (jogada > 9)):
-            jogada = int(input('[WARNING] Valor inválido! Digite um número entre 1 e 9 para realizar sua jogada: '))
+            jogada = int(input(msg))
         return jogada
-    
-    def get_grid_positions(self, jogada) -> int|int:
+
+    def get_grid_positions(self, jogada) -> tuple[int, int]:
         """
-        Pega as posições cartesianas (x, y) de acordo com a chave passada (jogada)
+        Pega as posições cartesianas (x, y)
+        de acordo com a chave passada (jogada)
             return: posicao_x (int)
             return: posicao_y (int)
         """
         positions = {
-            1 : (0, 0),
-            2 : (0, 1),
-            3 : (0, 2),
-            4 : (1, 0),
-            5 : (1, 1),
-            6 : (1, 2),
-            7 : (2, 0),
-            8 : (2, 1),
-            9 : (2, 2),
+            1: (0, 0),
+            2: (0, 1),
+            3: (0, 2),
+            4: (1, 0),
+            5: (1, 1),
+            6: (1, 2),
+            7: (2, 0),
+            8: (2, 1),
+            9: (2, 2),
         }
         play_position = positions[jogada]
         return play_position[0], play_position[1]
-        
-    # Acho que essa parte talvez seja deletada com a interface que bruno ta implementando.. Ou aproveitada pra imprimir a cada loop
-    def print_game_grid(self) -> list:
-        """
-        Apresenta o grid do jogo da velha, com as posições jogadas preenchidas pelo
+
+    def print_game_grid(self) -> str:
+        """Apresenta o grid do jogo da velha,
+        com as posições jogadas preenchidas pelo
         símbolo respectivo à cada jogador
-            return: grid (matriz)
+
+        Returns:
+            list: str (matriz)
         """
-        grid = (f' {self.grid[0][0]} | {self.grid[0][1]} | {self.grid[0][2]} \n' 
-                f'---+---+---\n'
-                f' {self.grid[1][0]} | {self.grid[1][1]} | {self.grid[1][2]} \n'
-                f'---+---+---\n'
-                f' {self.grid[2][0]} | {self.grid[2][1]} | {self.grid[2][2]} \n')
-        return grid
-    
+        grid = (
+            f' {self.grid[0][0]} | {self.grid[0][1]} | {self.grid[0][2]}\n'
+            f'---+---+---\n'
+            f' {self.grid[1][0]} | {self.grid[1][1]} | {self.grid[1][2]}\n'
+            f'---+---+---\n'
+            f' {self.grid[2][0]} | {self.grid[2][1]} | {self.grid[2][2]}\n'
+            )
+        print(grid)
+
     def block_played_position(self, move, player) -> bool:
         """
-        Verifica se a jogada passada pelo player já não foi jogada, caso não, adiciona
-        a jogada à lista do player para bloquear outras jogadas naquela posição e em
+        Verifica se a jogada passada pelo player já não foi jogada,
+        caso não, adiciona a jogada à lista do player
+        para bloquear outras jogadas naquela posição e em
         seguida retira da lista de jogadas disponíveis
             return: bool
         """
@@ -78,10 +123,11 @@ class JogoDaVelha():
         self.player_move_list[player].append(move)
         self.available_positions.pop(move)
         return True
-    
+
     def check_winner(self, player_move_list):
         """
-        Verifica se na lista de jogadas de cada player, se há uma combinação de valores
+        Verifica se na lista de jogadas de cada player,
+        se há uma combinação de valores
         que dá match com alguma das sequências de vitória
             return: bool
         """
@@ -94,53 +140,39 @@ class JogoDaVelha():
             if all(item in player_move_list for item in sequence):
                 return True
         return False
-    
+
     def play_game(self):
-        self.game_robot.arm.move_joints(self.robo.e1_pose_intermediate_board) #move to pose
+        self.__controller.go_iddle()
         HUMANO = 'X'
         ROBOT = 'O'
         turn = [HUMANO, ROBOT]
         players = ['Human', 'Robot']
         turns = 0
+        self.print_game_grid()
         while turns < 9:
-            cont_jogador = turns%2
+            cont_jogador = turns % 2
             player = players[cont_jogador]
             if player == 'Human':
-                pos_jogada = self.valida_jogada(int(input('Digite um número entre 1 e 9 para realizar sua jogada: ')))
+                msg = 'Digite um número entre 1 e 9 para realizar sua jogada: '
+                pos_jogada = self.valida_jogada(int(input(msg)))
                 while not self.block_played_position(pos_jogada, player):
-                    pos_jogada = self.valida_jogada(int(input('[WARNING] Posição ja foi escolhida! Digite outro número entre 1 e 9 para realizar sua jogada: ')))
+                    warning = '[WARNING] Posição ja foi escolhida! '
+                    pos_jogada = self.valida_jogada(int(input(warning)))
             else:
-                self.game_robot.get_game_piece() # verificar através de controlador
-                self.game_robot.trajectory_move(
-                    Pose.pose_from_dict(self.coord.e1_pose_intermediate_tray),
-                    Pose.pose_from_dict(self.coord.e1_pose_grip_base),
-                    self.game_robot.grip(),
-                    Pose.pose_from_dict(self.coord.e1_pose_intermediate_tray),
-                    Pose.pose_from_dict(self.coord.e1_pose_intermediate_board),
-                    Pose.pose_from_dict(self.coord.e1_pose_parallel_grip)
+                pos_jogada = random.choice(
+                    list(self.available_positions.keys())
                 )
-                pos_jogada = random.choice(list(self.available_positions.keys()))
-                self.game_robot.paths_of_each_grid_position(pos_jogada)
-                time.sleep(2)
-                self.game_robot.arm.open_gripper(self.speed)
-                self.game_robot.arm.move_joints(self.robo.e1_pose_intermediate_board)
+                self.__controller.play_piece(pos_jogada)
                 self.block_played_position(pos_jogada, player)
-                
+
             linha, coluna = self.get_grid_positions(pos_jogada)
             self.grid[linha][coluna] = turn[cont_jogador]
-            print(self.print_game_grid())
-            winner = self.check_winner(self.plays[player])
+            self.print_game_grid()
+            winner = self.check_winner(self.player_move_list[player])
             if winner:
                 print(f"{players[cont_jogador]}, Você Venceu!")
                 break
             turns += 1
-            
+
         if not winner:
             print("Velha!!")
-            
-# Teste da classe JogoDaVelha
-if __name__ == "__main__":
-    # Testando a inicialização com valores válidos
-    game = JogoDaVelha()
-    game.play_game() # Saída: print com o vencedor ou com a msg "Empate"
-            
