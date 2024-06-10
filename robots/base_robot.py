@@ -24,6 +24,7 @@ class BaseRobot(AbstractRobot):
 
     def __init__(
         self,
+        basepose: dict[str, float] = BASEPOSE,
     ) -> None:
         self.connected = True
         self.calibrated = False
