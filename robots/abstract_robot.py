@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from pose import Pose
+from robots.pose import Pose
 
 
 class AbstractRobot(ABC):
