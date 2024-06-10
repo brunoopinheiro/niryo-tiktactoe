@@ -1,5 +1,5 @@
 from base_robot import BaseRobot
-from pyniryo2 import (NiryoRobot, RobotErrors)
+from pyniryo2 import (NiryoRobot as Niryo, RobotErrors)
 
 from robots.pose import Pose
 
@@ -7,14 +7,14 @@ from robots.pose import Pose
 ROBOT_IP = "169.254.200.200"
 
 
-class NiryoRobot_(BaseRobot):
+class NiryoRobot(BaseRobot):
 
     @property
-    def robot(self) -> NiryoRobot:
+    def robot(self) -> Niryo:
         return self.__robot
 
     @robot.setter
-    def robot(self, robot_obj: NiryoRobot) -> None:
+    def robot(self, robot_obj: Niryo) -> None:
         self.__robot = robot_obj
 
     @staticmethod
@@ -31,7 +31,7 @@ class NiryoRobot_(BaseRobot):
         return result
 
     def __init__(self) -> None:
-        self.robot = NiryoRobot(ROBOT_IP)
+        self.robot = Niryo(ROBOT_IP)
         super().__init__()
         result = False
         while result is not True:
