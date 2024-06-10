@@ -1,0 +1,32 @@
+* always check if it is possible to win
+if it is not possible to win right away, start strategies: (https://pt.wikipedia.org/wiki/Jogo_da_velha)
+1. create triangle
+    1.1. from center
+    1.2. from corner
+2. block triangle
+3. play in the center
+4. play in an empty corner
+
+(https://pt.wikihow.com/Ganhar-no-Jogo-da-Velha)
+if robot_first_play: choose corner in corners
+    if human_first_play is not center:
+        robot_next_play is center
+        human_next_play is corner and blocks robot win
+        check plays available to win and choose position in common
+        human_next_play blocks 1 robot win
+        robot wins with the other combination
+    else:
+        #option1
+        robot_next_play is opposite_corner
+        if human_next_play in corners:
+            robot_next_play is last_corner
+            robot wins
+        #option2
+        robot_next_play in border and not corner and not touching robot_first_play
+        if human_next_play is corner and not touching robot_last_play:
+            robot_next_play blocks human win
+            human_next_play blocks 1 robot win
+            robot wins with the other combination
+else:
+    if human_first_play is border and not corner:
+        robot_first_play
