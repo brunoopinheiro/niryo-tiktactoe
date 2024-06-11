@@ -112,10 +112,10 @@ class HardMode:
             print('Creating a triangle')
             return next_play
         # 2. block triangle
-        blocK_triangle, next_play = self.block_triangle(player_moves)
-        if blocK_triangle:
-            print('Blocking a triangle')
-            return next_play
+        # block_triangle, next_play = self.block_triangle(player_moves)
+        # if block_triangle:
+        #     print('Blocking a triangle')
+        #     return next_play
         # 3. play in the center
         empty_center, next_play = self.empty_center(player_moves)
         if empty_center:

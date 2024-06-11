@@ -1,12 +1,6 @@
 from robots.base_robot import BaseRobot
 from coordinates.pose_calibration import CalibratedPositions
 from robots.pose import Pose
-import json
-
-
-with open('coordinates/ref_coordinates.json', 'r') as openfile:
-    referenced_coordinates = json.load(openfile)
-GRIDCENTER = Pose(*referenced_coordinates['board_center'])
 
 
 class RobotController:
@@ -44,10 +38,9 @@ class RobotController:
     def __init__(
         self,
         robot: BaseRobot,
-        grid_center: dict[str, float] = GRIDCENTER,
     ) -> None:
         self.robot = robot
-        self.calibrator = CalibratedPositions(grid_center)
+        self.calibrator = CalibratedPositions()
         self.calibrator.calibration()
         self.__home: Pose = self.calibrator.intermediate_board
 

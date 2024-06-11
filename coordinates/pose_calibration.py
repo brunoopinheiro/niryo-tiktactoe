@@ -2,15 +2,21 @@ from robots.pose import Pose
 import json
 
 
+JSONPATH = 'coordinates/ref_coordinates.json'
+
+
 class CalibratedPositions:
 
-    def calibration(self):
-
-        with open('coordinates/ref_coordinates.json', 'r') as openfile:
+    def __getjson(self) -> dict:
+        with open(JSONPATH, 'r') as openfile:
             referenced_coordinates = json.load(openfile)
-        
-        board_horizontal_distance = Pose(*referenced_coordinates['board_horizontal_distance'])
-        board_vertical_distance = Pose(*referenced_coordinates['board_vertical_distance'])
+            return referenced_coordinates
+
+    def calibration(self):
+        ref_cd = self.__getjson()
+        board_horizontal_distance = Pose(*ref_cd['board_horizontal_distance'])
+        board_vertical_distance = Pose(*ref_cd['board_vertical_distance'])
+        self.board_center = Pose(*ref_cd['board_center'])
 
         # Number 1 on keyboard
         self.board_bottom_left_corner = (self.board_center
@@ -37,8 +43,7 @@ class CalibratedPositions:
                                        + board_horizontal_distance
                                        - board_vertical_distance)
         # Pose to get bead
-        self.grip_base = Pose(*referenced_coordinates['grip_base'])
-
+        self.grip_base = Pose(*ref_cd['grip_base'])
         # Pose above tray
         self.intermediate_tray = (self.board_center
                                   + {'j1': -1.552, 'j2': 1.123,
@@ -55,6 +60,5 @@ class CalibratedPositions:
                                   'j3': 0.150, 'j4': 0.0,
                                   'j5': -0.430, 'j6': -0.005})
 
-    def __init__(self, center_board) -> None:
-        self.board_center = center_board
+    def __init__(self) -> None:
         self.calibration()

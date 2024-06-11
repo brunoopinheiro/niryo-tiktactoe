@@ -62,7 +62,7 @@ class TicTacToe:
     def player_moves(self, moves: dict[int, list[tuple[int, int]]]) -> None:
         self.__playermoves = moves
 
-    def __init__(self, robot: BaseRobot, first=None) -> None:
+    def __init__(self, robot: BaseRobot, hardmode=True, first=None) -> None:
         self.__marks = [' ', 'X', 'O']
         self.__board = self.__initialboard
         self.__playermoves = {1: [], 2: []}
@@ -72,6 +72,7 @@ class TicTacToe:
         self.__count = 1
         if first is None:
             first = choice([1, 2])
+        self.__hardmode = hardmode
         self.__play_mode = HardMode(self.__winning_combinations)
         self.__player = first
 
@@ -120,6 +121,7 @@ class TicTacToe:
         playermark = self.__marks[self.__player]
         newboard = self.__board
         try:
+            
             i, j = self.__available[play]
             if self.__board[i][j] != ' ':
                 raise SystemError("This shouldn't have happened.")
@@ -165,11 +167,11 @@ class TicTacToe:
                         self.__registerplay(move)
                         self.__setboard(newboard)
                 else:
-                    # play = choice(list(self.__available.keys()))
-                    play = self.__play_mode.get_nextplay(self.player_moves)
-                    print(play)
-                    print(f'AvailableMoves: {self.__available}')
-                    print(play)
+                    if self.__hardmode:
+                        play = self.__play_mode.get_nextplay(self.player_moves)
+                    else:
+                        play = choice(list(self.__available.keys()))
+                    print(f'AvailableMoves: {self.__available} || {play}')
                     valid, newboard, move = self.__robotplay(play)
                     if valid:
                         # play_key = self.__getmovekey(move)
