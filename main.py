@@ -1,6 +1,5 @@
 from robots.test_robot import TestRobot
 from robots.niryo_robot import NiryoRobot
-# from moviment_path.game_logic import JogoDaVelha
 from game.tictactoe import TicTacToe
 
 
@@ -13,7 +12,16 @@ def main():
         robot = TestRobot()
     if choice == 2:
         robot = NiryoRobot()
-    game = TicTacToe(robot)
+    hardmode = True
+    mode = input('Hard mode? [S/N] ')
+    if mode == 'N' or mode == 'n':
+        hardmode = False
+    first = input('Quem começa? 1 - Jogador, 2 - Robô >> ')
+    if first not in ('1', '2'):
+        first = None
+    else:
+        first = int(first)
+    game = TicTacToe(robot, hardmode, first)
     game.play_game()
 
 

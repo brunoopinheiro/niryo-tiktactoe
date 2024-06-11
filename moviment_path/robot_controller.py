@@ -3,11 +3,6 @@ from coordinates.pose_calibration import CalibratedPositions
 from robots.pose import Pose
 
 
-GRIDCENTER = {"j1": -0.039, "j2": -0.843,
-              "j3": -0.152, "j4": -0.078,
-              "j5": -0.520, "j6": -0.130}
-
-
 class RobotController:
 
     @property
@@ -43,10 +38,9 @@ class RobotController:
     def __init__(
         self,
         robot: BaseRobot,
-        grid_center: dict[str, float] = GRIDCENTER,
     ) -> None:
         self.robot = robot
-        self.calibrator = CalibratedPositions(grid_center)
+        self.calibrator = CalibratedPositions()
         self.calibrator.calibration()
         self.__home: Pose = self.calibrator.intermediate_board
 

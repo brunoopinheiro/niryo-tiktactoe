@@ -1,16 +1,23 @@
 from robots.pose import Pose
+import json
+
+
+JSONPATH = 'coordinates/ref_coordinates.json'
 
 
 class CalibratedPositions:
 
+    def __getjson(self) -> dict:
+        with open(JSONPATH, 'r') as openfile:
+            referenced_coordinates = json.load(openfile)
+            return referenced_coordinates
+
     def calibration(self):
-    
-        board_horizontal_distance = {'j1': 0.174, 'j2': -0.037,
-                                     'j3': 0.066, 'j4': 0.038,
-                                     'j5': -0.052, 'j6': 0.148}
-        board_vertical_distance = {'j1': 0.004, 'j2': -0.213,
-                                   'j3': 0.429, 'j4': 0.003,
-                                   'j5': -0.224, 'j6': 0.010}
+        ref_cd = self.__getjson()
+        board_horizontal_distance = Pose(*ref_cd['board_horizontal_distance'])
+        board_vertical_distance = Pose(*ref_cd['board_vertical_distance'])
+        self.board_center = Pose(*ref_cd['board_center'])
+
         # Number 1 on keyboard
         self.board_bottom_left_corner = (self.board_center
                                          - board_horizontal_distance
@@ -36,9 +43,7 @@ class CalibratedPositions:
                                        + board_horizontal_distance
                                        - board_vertical_distance)
         # Pose to get bead
-        self.grip_base = Pose.pose_from_dict({'j1': -1.587, 'j2': -0.498,
-                          'j3': -0.680, 'j4': -0.086,
-                          'j5': -0.092, 'j6': -0.084})
+        self.grip_base = Pose(*ref_cd['grip_base'])
         # Pose above tray
         self.intermediate_tray = (self.board_center
                                   + {'j1': -1.552, 'j2': 1.123,
@@ -55,6 +60,5 @@ class CalibratedPositions:
                                   'j3': 0.150, 'j4': 0.0,
                                   'j5': -0.430, 'j6': -0.005})
 
-    def __init__(self, center_board) -> None:
-        self.board_center = Pose(**center_board)
+    def __init__(self) -> None:
         self.calibration()
