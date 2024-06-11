@@ -1,7 +1,7 @@
 from robots.base_robot import BaseRobot
 from moviment_path.robot_controller import RobotController
+from game.hard_mode import HardMode
 from random import choice
-from time import sleep
 
 
 class TicTacToe:
@@ -72,6 +72,7 @@ class TicTacToe:
         self.__count = 1
         if first is None:
             first = choice([1, 2])
+        self.__play_mode = HardMode(self.__winning_combinations)
         self.__player = first
 
     @staticmethod
@@ -151,7 +152,7 @@ class TicTacToe:
 
         stop = False
         while stop is False:
-            sleep(2)
+            # sleep(2)
             print('======')
             print(f'Rodada: {self.__count}')
             self.__printboard(self.__board)
@@ -165,7 +166,9 @@ class TicTacToe:
                         self.__registerplay(move)
                         self.__setboard(newboard)
                 else:
-                    play = choice(list(self.__available.keys()))
+                    # play = choice(list(self.__available.keys()))
+                    play = self.__play_mode.get_nextplay(self.player_moves)
+                    print(play)
                     print(f'AvailableMoves: {self.__available}')
                     print(play)
                     valid, newboard, move = self.__robotplay(play)
