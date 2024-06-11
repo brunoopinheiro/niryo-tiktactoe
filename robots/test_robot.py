@@ -1,5 +1,6 @@
 from robots.base_robot import BaseRobot
 from robots.pose import Pose
+from time import sleep
 
 
 class TestRobot(BaseRobot):
@@ -21,10 +22,16 @@ class TestRobot(BaseRobot):
             print(f'Moving to position: {pose_}')
             super().move_to_pose(pose_)
             print('Successfully moved.')
+            sleep(0.5)
             return True
         except ValueError as err:
             print(err)
             return False
+
+    def move_to_pose_(self, pose_: Pose) -> None:
+        print('Moving to pose: ', pose_)
+        sleep(0.5)
+        return super().move_to_pose_(pose_)
 
     def grip(self) -> None:
         print('Closing grip')

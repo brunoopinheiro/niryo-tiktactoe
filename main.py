@@ -13,10 +13,10 @@ def main():
     if choice == 2:
         robot = NiryoRobot()
     hardmode = True
-    mode = input('Hard mode? [S/N]')
+    mode = input('Hard mode? [S/N] ')
     if mode == 'N' or mode == 'n':
         hardmode = False
-    first = input('Quem começa? 1 - Jogador, 2 - Robô >>')
+    first = input('Quem começa? 1 - Jogador, 2 - Robô >> ')
     if first not in ('1', '2'):
         first = None
     else:

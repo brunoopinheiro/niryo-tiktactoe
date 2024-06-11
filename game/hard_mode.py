@@ -69,7 +69,7 @@ class HardMode:
                         return True, next_play
                 if play == self.corners[2]:
                     next_play = self.corners[1]
-                    if next_play not in play and next_play not in robot:
+                    if next_play not in player and next_play not in robot:
                         return True, next_play
         return False, None
 
@@ -97,6 +97,14 @@ class HardMode:
                 valid = True
         return valid, next_play
 
+    def find_available(self, player_moves):
+        sub1 = set(player_moves[1])
+        sub2 = set(player_moves[2])
+        played = sub1.union(sub2)
+        board = set(self.inverse_mapper.keys())
+        available = board.difference(played)
+        return available
+
     def best_choice(self, player_moves):
         win_in_1, best_play = self.check_win(player_moves)
         if win_in_1:
@@ -112,10 +120,10 @@ class HardMode:
             print('Creating a triangle')
             return next_play
         # 2. block triangle
-        # block_triangle, next_play = self.block_triangle(player_moves)
-        # if block_triangle:
-        #     print('Blocking a triangle')
-        #     return next_play
+        block_triangle, next_play = self.block_triangle(player_moves)
+        if block_triangle:
+            print('Blocking a triangle')
+            return next_play
         # 3. play in the center
         empty_center, next_play = self.empty_center(player_moves)
         if empty_center:
@@ -126,8 +134,8 @@ class HardMode:
         if empty_corner:
             print('Empty corner')
             return next_play
-        print('Chosing a random position should not happen')
-        return choice(list(self.inverse_mapper))
+        print('Finding an available position')
+        return choice(list(self.find_available(player_moves)))
 
     def get_nextplay(self, player_moves):
         next_play = self.best_choice(player_moves)

@@ -121,7 +121,6 @@ class TicTacToe:
         playermark = self.__marks[self.__player]
         newboard = self.__board
         try:
-            
             i, j = self.__available[play]
             if self.__board[i][j] != ' ':
                 raise SystemError("This shouldn't have happened.")
@@ -154,6 +153,7 @@ class TicTacToe:
 
         stop = False
         while stop is False:
+            print('\n')
             print('======')
             print(f'Rodada: {self.__count}')
             self.__printboard(self.__board)
@@ -171,10 +171,8 @@ class TicTacToe:
                         play = self.__play_mode.get_nextplay(self.player_moves)
                     else:
                         play = choice(list(self.__available.keys()))
-                    print(f'AvailableMoves: {self.__available} || {play}')
                     valid, newboard, move = self.__robotplay(play)
                     if valid:
-                        # play_key = self.__getmovekey(move)
                         self.__controller.play_piece(play)
                         self.__registerplay(move)
                         self.__setboard(newboard)

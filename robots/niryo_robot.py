@@ -31,7 +31,6 @@ class NiryoRobot(BaseRobot):
             pose_list = [j for j in pose_.values()]
         if isinstance(pose_, list):
             pose_list = pose_
-        print(f'Moving to point: {pose_list}')
         self.robot.arm.move_joints(pose_list)
         super().move_to_pose(pose_)
 
@@ -39,7 +38,6 @@ class NiryoRobot(BaseRobot):
         if not self.connected:
             raise ConnectionError("Robot is not connected")
         pose_list = pose_.joint_list()
-        print(f'Moving to point: {pose_list}')
         self.robot.arm.move_joints(pose_list)
         super().move_to_pose_(pose_)
 
@@ -47,7 +45,6 @@ class NiryoRobot(BaseRobot):
         if not self.connected:
             raise ConnectionError("Robot is not connected")
         if not self.grip_closed:
-            print("Grasping")
             self.robot.tool.close_gripper()
             self.grip_closed = True
 
@@ -55,7 +52,6 @@ class NiryoRobot(BaseRobot):
         if not self.connected:
             raise ConnectionError("Robot is not connected")
         if self.grip_closed:
-            print("Releasing")
             self.robot.tool.open_gripper()
             self.grip_closed = False
 
