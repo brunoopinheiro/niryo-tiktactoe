@@ -62,15 +62,17 @@ class TicTacToe:
     def player_moves(self, moves: dict[int, list[tuple[int, int]]]) -> None:
         self.__playermoves = moves
 
-    def __init__(self, robot: BaseRobot) -> None:
+    def __init__(self, robot: BaseRobot, first=None) -> None:
         self.__marks = [' ', 'X', 'O']
         self.__board = self.__initialboard
         self.__playermoves = {1: [], 2: []}
         self.gamerobot = robot
         self.__controller = RobotController(self.gamerobot)
         self.__available = self.__boardmap
-        self.__player = 1
         self.__count = 1
+        if first is None:
+            first = choice([1, 2])
+        self.__player = first
 
     @staticmethod
     def __printboard(board) -> None:
