@@ -18,3 +18,11 @@ No ambiente conda, instale o pacote do `pyniryo2` com o comando:
 ```powershell
 pip install pyniryo2
 ```
+
+## Executando o Projeto:
+Para executar o projeto, basta rodar o arquivo `main.py` com o comando:
+```powershell
+python main.py
+```
+
+Caso deseje utilizar o `Niryo` para jogar, é necessário que o Niryo esteja conectado e ligado. Verifique o `Niryo Studio` para ficar de olho no status do robô. A conexão do projeto com o Niryo é feita automaticamente durante o código, então não é necessário se preocupar com isso.

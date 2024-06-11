@@ -1,5 +1,5 @@
-from abstract_robot import AbstractRobot
-from pose import Pose
+from robots.abstract_robot import AbstractRobot
+from robots.pose import Pose
 
 # same as e1_pose_intermediate_board
 BASEPOSE = {
