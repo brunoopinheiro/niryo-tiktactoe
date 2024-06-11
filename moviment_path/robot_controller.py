@@ -1,11 +1,12 @@
 from robots.base_robot import BaseRobot
 from coordinates.pose_calibration import CalibratedPositions
 from robots.pose import Pose
+import json
 
 
-GRIDCENTER = {"j1": -0.039, "j2": -0.843,
-              "j3": -0.152, "j4": -0.078,
-              "j5": -0.520, "j6": -0.130}
+with open('coordinates/ref_coordinates.json', 'r') as openfile:
+    referenced_coordinates = json.load(openfile)
+GRIDCENTER = Pose(*referenced_coordinates['board_center'])
 
 
 class RobotController:

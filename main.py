@@ -1,6 +1,5 @@
 from robots.test_robot import TestRobot
 from robots.niryo_robot import NiryoRobot
-# from moviment_path.game_logic import JogoDaVelha
 from game.tictactoe import TicTacToe
 
 
