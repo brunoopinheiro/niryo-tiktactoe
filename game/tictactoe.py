@@ -152,7 +152,6 @@ class TicTacToe:
 
         stop = False
         while stop is False:
-            # sleep(2)
             print('======')
             print(f'Rodada: {self.__count}')
             self.__printboard(self.__board)
@@ -166,8 +165,8 @@ class TicTacToe:
                         self.__registerplay(move)
                         self.__setboard(newboard)
                 else:
-                    # play = choice(list(self.__available.keys()))
-                    play = self.__play_mode.get_nextplay(self.player_moves)
+                    play = choice(list(self.__available.keys()))
+                    # play = self.__play_mode.get_nextplay(self.player_moves)
                     print(play)
                     print(f'AvailableMoves: {self.__available}')
                     print(play)
