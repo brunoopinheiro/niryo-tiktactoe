@@ -2,7 +2,6 @@ from robots.base_robot import BaseRobot
 from moviment_path.robot_controller import RobotController
 from game.hard_mode import HardMode
 from random import choice
-from time import sleep
 
 
 class TicTacToe:
