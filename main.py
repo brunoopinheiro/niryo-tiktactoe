@@ -1,6 +1,7 @@
 from robots.test_robot import TestRobot
 from robots.niryo_robot import NiryoRobot
-from moviment_path.game_logic import JogoDaVelha
+# from moviment_path.game_logic import JogoDaVelha
+from game.tictactoe import TicTacToe
 
 
 def main():
@@ -12,7 +13,7 @@ def main():
         robot = TestRobot()
     if choice == 2:
         robot = NiryoRobot()
-    game = JogoDaVelha(robot)
+    game = TicTacToe(robot)
     game.play_game()
 
 
