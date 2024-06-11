@@ -3,9 +3,9 @@ from coordinates.pose_calibration import CalibratedPositions
 from robots.pose import Pose
 
 
-GRIDCENTER = {"j1": -0.025, "j2": -0.817,
-              "j3": -0.186, "j4": -0.133,
-              "j5": -0.477, "j6": -0.074}
+GRIDCENTER = {"j1": -0.039, "j2": -0.843,
+              "j3": -0.152, "j4": -0.078,
+              "j5": -0.520, "j6": -0.130}
 
 
 class RobotController:
@@ -72,14 +72,12 @@ class RobotController:
         self.robot.trajectory_move(route)
 
     def __get_piece(self) -> None:
-        # partindo do intermediate_board (home)
         self.__go_to_tray()
         self.robot.grip()
         self.__tray_to_home()
 
     def play_piece(self, board_position: int) -> None:
         self.__get_piece()
-
         route = [self.calibrator.parallel_board]
         pos = self.board_mapper[board_position]
         route.append(pos)
